@@ -6,7 +6,7 @@ Created a components folder and add the componets, CodeEditor.jsx, Compiler.jsx,
 
 Created a context folder and add the CodeComContext.jsx for proper state management
 
-# Installed CodeMirror to replicate the console UI
+# Installed CodeMirror to replicate the Code Compailer UI
 
 Installed code mirror following its documentation and provided the required props like mode, theme, etc..
 
