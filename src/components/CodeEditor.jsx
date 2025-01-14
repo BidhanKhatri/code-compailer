@@ -4,6 +4,7 @@ import "codemirror/lib/codemirror.css";
 import "codemirror/theme/material.css";
 import "codemirror/mode/javascript/javascript";
 import "codemirror/mode/python/python";
+import "codemirror/mode/clike/clike";
 import { CodeComContext } from "../context/CodeComContext";
 const CodeEditor = ({ language, value, onChange }) => {
   const codeMirrorRef = useRef(null);
@@ -15,7 +16,10 @@ const CodeEditor = ({ language, value, onChange }) => {
         ref={codeMirrorRef}
         value={value}
         options={{
-          mode: language,
+          mode:
+            language === "java" || language === "csrc"
+              ? `text/x-${language}`
+              : language,
           theme: theme,
           lineNumbers: true,
           lineWrapping: true,

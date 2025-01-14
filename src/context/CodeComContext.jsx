@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 export const CodeComContext = createContext();
 
@@ -9,12 +9,17 @@ const CodeComProvide = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [theme, setTheme] = useState("material");
   const [stop, setStop] = useState("");
+  const [consoleColor, setConsoleColor] = useState("#263238");
+  const [consoleTextColor, setConsoleTextColor] = useState("black");
+
+  const [nWs, setNws] = useState(null);
 
   //function to handle run code
 
   const handleRunCode = async () => {
     try {
       let ws = new WebSocket("wss://compiler.skillshikshya.com/ws/compiler/");
+      setNws(ws);
 
       setLoading(true);
       ws.onopen = () => {
@@ -32,7 +37,11 @@ const CodeComProvide = ({ children }) => {
       ws.onmessage = (e) => {
         const res = JSON.parse(e.data);
         console.log(res);
-        if (res.type === "stdout" || res.type === "stderr") {
+        if (
+          res.type === "stdout" ||
+          res.type === "stderr" ||
+          res.type === "error"
+        ) {
           setOutput((prev) => prev + res.data);
         }
         if (res.type === "stop") {
@@ -60,17 +69,17 @@ const CodeComProvide = ({ children }) => {
 
   const handleStopCode = async () => {
     try {
-      let ws = new WebSocket("wss://compiler.skillshikshya.com/ws/compiler/");
+      if (!nWs) {
+        console.log("No active webstock to stop");
+      }
 
-      ws.onopen = () => {
-        ws.send(
-          JSON.stringify({
-            command: "stop",
-          })
-        );
-      };
+      nWs.send(
+        JSON.stringify({
+          command: "stop",
+        })
+      );
 
-      ws.onmessage = (e) => {
+      nWs.onmessage = (e) => {
         const res = JSON.parse(e.data);
 
         if (res.type === "stop") {
@@ -85,6 +94,16 @@ const CodeComProvide = ({ children }) => {
     }
   };
 
+  useEffect(() => {
+    if (theme === "dracula") {
+      setConsoleColor("white");
+      setConsoleTextColor("#263238");
+    } else {
+      setConsoleColor("#263238");
+      setConsoleTextColor("white");
+    }
+  }, [theme]);
+
   const value = {
     //variables
     language,
@@ -92,6 +111,8 @@ const CodeComProvide = ({ children }) => {
     output,
     loading,
     theme,
+    consoleColor,
+    consoleTextColor,
 
     //functions
     setLanguage,
@@ -101,6 +122,8 @@ const CodeComProvide = ({ children }) => {
     setOutput,
     setTheme,
     handleStopCode,
+    setConsoleColor,
+    setConsoleTextColor,
   };
 
   return (

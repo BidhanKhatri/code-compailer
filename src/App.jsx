@@ -5,7 +5,7 @@ import Output from "./components/Output";
 function App() {
   return (
     <>
-      <div className="px-6 lg:px-10 py-4 gap-4 min-h-screen">
+      <div className="px-6 lg:px-10 py-4 gap-4 min-h-screen max-w-7xl mx-auto">
         <Header />
         <Compiler />
         <Output />
