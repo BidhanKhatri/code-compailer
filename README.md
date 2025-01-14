@@ -19,4 +19,4 @@ Installed code mirror following its documentation and provided the required prop
 
 # Deployment
 
-- After doing testing and debugging, entire application was hosted on Netlify for demo, Check the url link below to see my project <a href="https://bidhan-vrit-cc.netlify.app/ " taget="_blank" >Online Code Compailer</a>
+- After doing testing and debugging, entire application was hosted on Netlify for demo, Check the url link below to see my project <a href="https://bidhan-vrit-cc.netlify.app/ " target="_blank" >Online Code Compailer</a>
